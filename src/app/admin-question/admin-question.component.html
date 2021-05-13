@@ -1,0 +1,21 @@
+<form (ngSubmit)="printData()" #formTest [formGroup]="form">
+  <h1 class="display-5 mb-2">Agregar Pregunta</h1>
+  <div class="col text-end">
+      <h5 *ngIf="relacion_enviada"><small>Relacionar a :</small> {{ relacion_enviada }}</h5    >
+  </div>
+  <div class="mb-3">    
+    <label for="inputDescripcion" class="form-label">Descripcion</label>
+    <input
+      type="text"
+      formControlName="descripcion"
+      class="form-control"
+      id="descripcion"
+      placeholder="Ingresar descripcion"
+      name="descripcion"
+      required
+    />
+  </div>
+  <div>
+    <button type="submit" class="btn btn-success">Agregar</button>
+  </div>
+</form>
