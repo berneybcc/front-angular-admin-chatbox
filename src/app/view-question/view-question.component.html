@@ -1,24 +1,24 @@
-<div class="form-check">
-  <input
-    class="form-check-input"
-    type="radio"
-    name="exampleRadios"
-    id="exampleRadios1"
-    value="option1"
-    (change)="enviarDatos('asd2r24242')"
-  />
-  <label class="form-check-label" for="exampleRadios1"> Default radio </label>
-</div>
-<div class="form-check">
-  <input
-    class="form-check-input"
-    type="radio"
-    name="exampleRadios"
-    id="exampleRadios2"
-    value="option2"
-    (change)="enviarDatos('asasada23232')"
-  />
-  <label class="form-check-label" for="exampleRadios2">
-    Second default radio
-  </label>
-</div>
+<ul class="list-group">
+    
+    <li class="list-group-item" *ngFor="let item of info" id={{item.uid}}>
+        <div class="row">
+            <div class="col"><span>{{item.descripcion}}</span></div>
+            <div class="col text-end">
+                <button type="button" class="btn btn-light" style='padding: .1rem .3rem;margin-bottom:.1rem'>
+                    <i class="bi bi-trash"></i>
+                </button>
+                <button type="button" class="btn btn-light" style='padding: .1rem .3rem;margin-bottom:.1rem'>
+                    <i class="bi bi-pencil"></i>
+                </button>
+                <button type="button" class="btn btn-light" style='padding: .1rem .3rem;margin-bottom:.1rem' (click)=solicitarPreguntas(item.uid) id="btn-{{item.uid}}">
+                    <i class="bi bi-plus" id="i-{{item.uid}}"></i>
+                </button>
+            </div>
+            <div class="col-1">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="pregunta" value="{{item.uid}}" (change)=enviarDatos({descripcion:item.descripcion,uid:item.uid})>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>

@@ -21,8 +21,12 @@ export class SaveDatosService {
     return this.http.post(url_server+"questions/save",body);
   }
 
-  obtainQuestion(){
+  obtainQuestion(uid:string){
     console.log('Service Obtain Question');
-    return this.http.get(url_server+'/questions/obtain');
+    var param= "";
+    if(uid){
+      param="/"+uid;
+    }
+    return this.http.get(url_server+'/questions/obtain'+param);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output ,EventEmitter} from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SaveDatosService } from '../services/save-datos.service';
 
 @Component({
@@ -9,10 +9,11 @@ import { SaveDatosService } from '../services/save-datos.service';
 })
 export class AdminQuestionComponent implements OnInit {
 
-  @Input() relacion_enviada:string;
+  @Input() relacion_enviada:any;
   @Output() mensaje_status = new EventEmitter();
+
   form = new FormGroup({
-    descripcion:new FormControl(),
+    descripcion:new FormControl('',[Validators.required]),
   })
 
   constructor(private api: SaveDatosService) { }
@@ -20,11 +21,19 @@ export class AdminQuestionComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get f(){
+    return this.form.controls;
+  }
+
   printData():void{
     var datos: any = this.form.value;
-    datos.relacion = this.relacion_enviada;
+    datos.relacion = this.relacion_enviada.uid;
+    console.log(datos);
     this.api.saveQuestion(datos).subscribe(data=>{
       console.log(data);
+      this.mensaje_status.emit(data);
+      this.form.reset();
+      this.relacion_enviada='';
     })
   }
 

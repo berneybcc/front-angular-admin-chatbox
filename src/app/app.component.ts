@@ -8,4 +8,5 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class AppComponent {
   relacion_enviada_view:string;
   mensage_estado:any;
+  mensaje_estado_view:any;
 }
