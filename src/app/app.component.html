@@ -11,11 +11,15 @@
   </div>
   <div class="row">
     <div class="card p-4 m-1 col-sm">
-      <add-question [relacion_enviada]="relacion_enviada_view" (mensaje_status)="mensage_estado = $event"></add-question>
+      <add-question [relacion_enviada]="relacion_enviada_view" (mensaje_status)="mensage_estado = $event" (info)="info_preguntas=$event"></add-question>
     </div>
-    <div class="card p-4 m-1 col-sm">
-      <view (active_relacion)="relacion_enviada_view = $event" (mensaje_status_view)="mensage_estado = $event"></view>
+    <div class="card p-4 m-1 col-sm" *ngIf="!edit_status">
+      <view (active_relacion)="relacion_enviada_view = $event" (mensaje_status_view)="mensage_estado = $event" (edit_element_status)="edit_status=$event" [info]="info_preguntas"></view>
     </div>
+    <div class="card p-4 m-1 col-sm" *ngIf="edit_status">
+      <edit-element [uid_element]="edit_status" (cancel_edit)="edit_status=$event" (mensaje_status)="mensage_estado = $event"></edit-element>
+    </div>
+
     <!-- <router-outlet></router-outlet> -->
   </div>
 </div>

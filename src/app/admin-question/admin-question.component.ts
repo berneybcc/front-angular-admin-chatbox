@@ -11,6 +11,7 @@ export class AdminQuestionComponent implements OnInit {
 
   @Input() relacion_enviada:any;
   @Output() mensaje_status = new EventEmitter();
+  @Output() info = new EventEmitter();
 
   form = new FormGroup({
     descripcion:new FormControl('',[Validators.required]),
@@ -27,13 +28,29 @@ export class AdminQuestionComponent implements OnInit {
 
   printData():void{
     var datos: any = this.form.value;
-    datos.relacion = this.relacion_enviada.uid;
+    datos.relacion = (typeof this.relacion_enviada !== "undefined")? this.relacion_enviada.uid:"";
     console.log(datos);
     this.api.saveQuestion(datos).subscribe(data=>{
       console.log(data);
       this.mensaje_status.emit(data);
       this.form.reset();
       this.relacion_enviada='';
+      this.obtainQuestion();
+    })
+  }
+
+  obtainQuestion(){
+    var extraData:any=[];
+    this.api.obtainQuestion(null).subscribe((data:any)=>{
+      if(!data.error){
+        for(var d of (data.data as any)){
+          extraData.push({
+            uid:d._id,
+            descripcion:d.description
+          })
+        }
+        this.info.emit(extraData);
+      }
     })
   }
 

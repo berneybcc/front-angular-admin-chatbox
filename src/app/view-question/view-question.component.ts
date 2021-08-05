@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { element } from 'protractor';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import  Swal  from 'sweetalert2';
 import { SaveDatosService } from '../services/save-datos.service';
 
 @Component({
@@ -11,30 +11,81 @@ export class ViewQuestionComponent implements OnInit {
 
   @Output() active_relacion = new EventEmitter();
   @Output() mensaje_status_view = new EventEmitter();
-  info:any = [];
+  @Output() edit_element_status = new EventEmitter();
+  @Input() info:any=[];
 
   constructor(private api: SaveDatosService) {
     localStorage.setItem('ElementActive','');
   }
 
   ngOnInit(): void {
+    this.cargarLista();
+  }
+
+  cargarLista(){
+    var extraer:any=[];
     this.api.obtainQuestion(null).subscribe((data:any)=>{
       if(!data.error){
         for(var d of (data.data as any)){
-          this.info.push({
+          extraer.push({
             uid:d._id,
             descripcion:d.description
           })
         }
+        this.info = extraer;
+        localStorage.setItem('ElementActive','');
       }
     })
   }
 
   public enviarDatos(event){
     this.active_relacion.emit(event);
+    this.edit_element_status.emit("");
+  }
+
+  public activeEdit(info){
+    this.edit_element_status.emit(info);
+    this.mensaje_status_view.emit("");
+  }
+
+  deleteDatos(info){
+    var uid=info.uid;
+    var descripcion = info.descripcion;
+    Swal.fire({
+      title: 'Seguro que desea eliminarla?',
+      text: descripcion,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.api.deleteQuestion(uid).subscribe(data=>{
+          Swal.fire(
+            'Eliminada!',
+            '',
+            'success'
+          )
+          this.mensaje_status_view.emit("");
+          this.edit_element_status.emit("");
+          this.cargarLista();
+        })
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+          'Tu pregunta fue salvada :)',
+          'error'
+        )
+      }
+    })
+  }
+
+  cancelarDelete(){
+    console.log("cancelo la accion");
   }
 
   async solicitarPreguntas(uid:string){
+    this.edit_element_status.emit("");
     this.mensaje_status_view.emit("");
     var elementActive:string= localStorage.ElementActive;
     if(elementActive.length===0){
@@ -95,12 +146,14 @@ export class ViewQuestionComponent implements OnInit {
     var btnDeleteElement=document.createElement('button');
     btnDeleteElement.setAttribute('class','btn btn-light');
     btnDeleteElement.setAttribute('style','padding: .1rem .3rem;margin-bottom:.1rem');
+    btnDeleteElement.addEventListener("click",()=>{this.deleteDatos({descripcion:descripcion,uid:uid})})
     var iDeleteElement= document.createElement('i');
     iDeleteElement.setAttribute('class','bi bi-trash');
 
     var btnEditElement=document.createElement('button');
     btnEditElement.setAttribute('class','btn btn-light');
     btnEditElement.setAttribute('style','padding: .1rem .3rem;margin-bottom:.1rem');
+    btnEditElement.addEventListener('click',()=>{this.activeEdit({descripcion:descripcion,uid:uid})});
     var iEditElement= document.createElement('i');
     iEditElement.setAttribute('class','bi bi-pencil');
 

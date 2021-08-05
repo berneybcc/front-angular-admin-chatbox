@@ -8,12 +8,14 @@ import { AdminQuestionComponent } from './admin-question/admin-question.componen
 import { ViewQuestionComponent } from './view-question/view-question.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { EditElementComponent } from './edit-element/edit-element.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminQuestionComponent,
-    ViewQuestionComponent
+    ViewQuestionComponent,
+    EditElementComponent
   ],
   imports: [
     BrowserModule,

@@ -17,8 +17,24 @@ export class SaveDatosService {
       inputDescripcion:datos.descripcion,
       checkQuestions:datos.relacion
     }
-    console.log(body);
     return this.http.post(url_server+"questions/save",body);
+  }
+
+  updateQuestion(datos:any){
+    var body:any ={
+      inputDescripcion:datos.descripcion,
+      uid:datos.uid
+    }
+    console.log(`datos enviados : ${body}`);
+    return this.http.post(url_server+"questions/updata",body);
+  }
+
+  deleteQuestion(datos:any){
+    var body:any ={
+      uid:datos
+    }
+    console.log(`datos enviados : ${body}`);
+    return this.http.post(url_server+"questions/delete",body);
   }
 
   obtainQuestion(uid:string){

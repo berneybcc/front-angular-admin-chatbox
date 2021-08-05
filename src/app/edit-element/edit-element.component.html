@@ -1,0 +1,22 @@
+<form (ngSubmit)="editElemet()" #formEdit [formGroup]="form">
+    <h1 class="display-5 mb-2">Editar Pregunta</h1>
+    <div class="mb-3">
+      <label for="inputDescripcion" class="form-label">Descripcion</label>
+      <input
+        type="text"
+        formControlName="descripcion"
+        class="form-control"
+        id="descripcion"
+        placeholder="Ingresar descripcion"
+        name="descripcion"
+      />
+      <div *ngIf="f.descripcion.touched && f.descripcion.invalid" class="alert alert-danger">
+          <div *ngIf="f.descripcion.errors.required">Se requiere la Descripcion</div>
+      </div>
+    </div>
+    <div>
+      <button type="submit" [disabled]="!form.valid" class="btn btn-success">Guardar</button>
+      <button type="button" class="btn btn-danger ms-1" (click)=cancelarEdit()>Cancelar</button>
+    </div>
+  </form>
+  

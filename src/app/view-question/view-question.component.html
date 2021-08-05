@@ -1,13 +1,13 @@
-<ul class="list-group">
+<ul class="list-group" *ngIf="info">
     
     <li class="list-group-item" *ngFor="let item of info" id={{item.uid}}>
         <div class="row">
             <div class="col"><span>{{item.descripcion}}</span></div>
             <div class="col text-end">
-                <button type="button" class="btn btn-light" style='padding: .1rem .3rem;margin-bottom:.1rem'>
+                <button type="button" class="btn btn-light" style='padding: .1rem .3rem;margin-bottom:.1rem' (click)=deleteDatos({descripcion:item.descripcion,uid:item.uid})>
                     <i class="bi bi-trash"></i>
                 </button>
-                <button type="button" class="btn btn-light" style='padding: .1rem .3rem;margin-bottom:.1rem'>
+                <button type="button" class="btn btn-light" style='padding: .1rem .3rem;margin-bottom:.1rem' (click)=activeEdit({descripcion:item.descripcion,uid:item.uid})>
                     <i class="bi bi-pencil"></i>
                 </button>
                 <button type="button" class="btn btn-light" style='padding: .1rem .3rem;margin-bottom:.1rem' (click)=solicitarPreguntas(item.uid) id="btn-{{item.uid}}">
