@@ -45,4 +45,9 @@ export class SaveDatosService {
     }
     return this.http.get(url_server+'/questions/obtain'+param);
   }
+
+  obtainCharts(){
+    console.log('Service Obtain Charts');
+    return this.http.get(url_server+'/report/charts');
+  }
 }

@@ -9,20 +9,28 @@ import { ViewQuestionComponent } from './view-question/view-question.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditElementComponent } from './edit-element/edit-element.component';
+//Graficos
+// import { ChartsModule } from 'ng2-charts';
+import { GraficasReportComponent } from './graficas-report/graficas-report.component';
+import { FormularioComponent } from './formulario/formulario.component';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminQuestionComponent,
     ViewQuestionComponent,
-    EditElementComponent
+    EditElementComponent,
+    GraficasReportComponent,
+    FormularioComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    GoogleChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
