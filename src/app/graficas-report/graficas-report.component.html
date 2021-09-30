@@ -3,8 +3,15 @@
     <h1 class="display-2 mb-4">Reporte</h1>
   </div>
 </div>
-<div class="row">
-  <google-chart #chart
+<div class="row text-end">
+  <div class="col">
+    <button class="btn btn-light" routerLink="/">
+      <i class="bi bi-question"></i>
+    </button>
+  </div>
+</div>
+<div *ngIf="data" class="row">
+  <google-chart *ngIf="data.length>0"  #chart
     [title]="title"
     [type]="type"
     [data]="data"
@@ -12,4 +19,9 @@
     [width]="width"
     [height]="height">
   </google-chart>
+</div>
+<div *ngIf="data.length==0" class="row" style="align-content: center;justify-content: center;height: 200px;">
+  <div class="spinner-grow text-info" role="status">
+    <span class="sr-only" style="padding: 50px;">Loading...</span>
+  </div>
 </div>

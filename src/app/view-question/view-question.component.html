@@ -1,5 +1,4 @@
-<ul class="list-group" *ngIf="info">
-    
+<ul class="list-group" *ngIf="info">    
     <li class="list-group-item" *ngFor="let item of info" id={{item.uid}}>
         <div class="row">
             <div class="col"><span>{{item.descripcion}}</span></div>
@@ -22,3 +21,6 @@
         </div>
     </li>
 </ul>
+<div *ngIf="!info" class="alert alert-info" role="alert">
+    No existen preguntas a mostrar.
+</div>
