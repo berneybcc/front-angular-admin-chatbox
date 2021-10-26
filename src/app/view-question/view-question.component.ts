@@ -88,6 +88,7 @@ export class ViewQuestionComponent implements OnInit {
     this.edit_element_status.emit("");
     this.mensaje_status_view.emit("");
     var elementActive:string= localStorage.ElementActive;
+    console.log(elementActive);
     if(elementActive.length===0){
       localStorage.ElementActive=uid;
     }else{

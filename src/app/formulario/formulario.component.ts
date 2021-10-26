@@ -36,6 +36,7 @@ export class FormularioComponent implements OnInit {
       this.form.reset();
       this.relacion_enviada='';
       this.obtainQuestion();
+      localStorage.ElementActive = "";
     })
   }
 
