@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SaveDatosService } from '../services/save-datos.service';
 import * as XLSX from 'xlsx';
+import  Swal  from 'sweetalert2';
 
 @Component({
   selector: 'app-graficas-report',
@@ -50,12 +51,20 @@ export class GraficasReportComponent implements OnInit {
 
   exportexcel(): void 
     {
-      import("xlsx").then(xlsx => {
-        const worksheet = xlsx.utils.json_to_sheet(this.info); // Sale Data
-        const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-        const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-        this.saveAsExcelFile(excelBuffer, "report");
-    });		
+      if(this.info.length>0){
+        import("xlsx").then(xlsx => {
+          const worksheet = xlsx.utils.json_to_sheet(this.info); // Sale Data
+          const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+          const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+          this.saveAsExcelFile(excelBuffer, "report");
+        });		
+      }else{
+        Swal.fire(
+          'Error',
+          'No hay informacion para exportar ;(',
+          'error'
+        )
+      }
   }
 
   saveAsExcelFile(buffer: any, fileName: string): void {
