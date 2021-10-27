@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { AdminQuestionComponent } from './admin-question/admin-question.component';
 import { ViewQuestionComponent } from './view-question/view-question.component';
 import { HttpClientModule } from '@angular/common/http';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EditElementComponent } from './edit-element/edit-element.component';
 //Graficos
 // import { ChartsModule } from 'ng2-charts';
 import { GraficasReportComponent } from './graficas-report/graficas-report.component';
 import { FormularioComponent } from './formulario/formulario.component';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgbModule,
+    NgbTooltipModule,
     GoogleChartsModule
   ],
   providers: [],
