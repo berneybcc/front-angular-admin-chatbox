@@ -1,26 +1,29 @@
 <form (ngSubmit)="printData()" #formTest [formGroup]="form">
-    <h1 class="display-5 mb-2">Agregar Pregunta</h1>
-    <div class="col text-end">
-      <h5 *ngIf="relacion_enviada">
-        <small>Relacionar a :</small> {{ relacion_enviada.descripcion }}
-      </h5>
+  <h1 class="display-5 mb-2">Agregar pregunta</h1>
+  <div class="col text-end">
+    <h5 *ngIf="relacion_enviada">
+      <small>Relacionar a :</small> {{ relacion_enviada.descripcion }}
+    </h5>
+  </div>
+  <div class="mb-3">
+    <label for="inputDescripcion" class="form-label inp">
+    <input
+      type="text"
+      formControlName="descripcion"
+      class="form-control"
+      id="descripcion"
+      placeholder=""
+      name="descripcion"
+      required="required"
+      autocomplete="off"
+    />
+    <span>Ingresa la descripción</span>
+  </label>
+    <div *ngIf="f.descripcion.touched && f.descripcion.invalid" class="alert alert-danger">
+        <div *ngIf="f.descripcion.errors.required">Por Favor Ingresa la sugerencia</div>
     </div>
-    <div class="mb-3">
-      <label for="inputDescripcion" class="form-label">Descripcion</label>
-      <input
-        type="text"
-        formControlName="descripcion"
-        class="form-control"
-        id="descripcion"
-        placeholder="Ingresar descripcion"
-        name="descripcion"
-      />
-      <div *ngIf="f.descripcion.touched && f.descripcion.invalid" class="alert alert-danger">
-          <div *ngIf="f.descripcion.errors.required">Se requiere la Descripcion</div>
-      </div>
-    </div>
-    <div>
-      <button type="submit" [disabled]="!form.valid" class="btn btn-success">Agregar</button>
-    </div>
-  </form>
-  
+  </div>
+  <div>
+    <button type="submit" [disabled]="!form.valid" class="btn btn-success">Agregar</button>
+  </div>
+</form>
