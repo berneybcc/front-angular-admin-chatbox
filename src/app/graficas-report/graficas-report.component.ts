@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SaveDatosService } from '../services/save-datos.service';
-import * as XLSX from 'xlsx';
+import { Workbook } from 'exceljs';
 import  Swal  from 'sweetalert2';
+import * as fs from 'file-saver';
 
 @Component({
   selector: 'app-graficas-report',
@@ -52,11 +53,38 @@ export class GraficasReportComponent implements OnInit {
   exportexcel(): void 
     {
       if(this.info.length>0){
-        import("xlsx").then(xlsx => {
-          const worksheet = xlsx.utils.json_to_sheet(this.info); // Sale Data
-          const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-          const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-          this.saveAsExcelFile(excelBuffer, "report");
+        let workbook = new Workbook();
+        let worksheet = workbook.addWorksheet("Report");
+        let header=[
+          {header:"Description",width:20},
+          {header:"Consultas",width:15}
+        ]
+        // let headerRow = worksheet.addRow(header);
+        worksheet.columns=header;
+        worksheet.getRow(1).font={ name: 'Calibri', family: 4, size: 14, bold: true };
+
+        var sizeOld=0;
+        for (let x1 of this.info)
+        {
+          let x2=Object.keys(x1);
+          let temp=[]
+          for(let y of x2)
+          {
+            temp.push(x1[y])
+            if(sizeOld==0){
+              sizeOld = x1[y].length;
+            }
+            if(x1[y].length > sizeOld){
+              sizeOld = x1[y].length;
+            }
+          }
+          worksheet.addRow(temp)
+        }
+        worksheet.getColumn(1).width=sizeOld;
+        let fname=`Report`;
+        workbook.xlsx.writeBuffer().then((data) => {
+          let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          fs.saveAs(blob, fname+'-'+new Date().valueOf()+'.xlsx');
         });		
       }else{
         Swal.fire(
@@ -65,21 +93,6 @@ export class GraficasReportComponent implements OnInit {
           'error'
         )
       }
-  }
-
-  saveAsExcelFile(buffer: any, fileName: string): void {
-    import("file-saver").then(FileSaver => {
-      let EXCEL_TYPE =
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-      let EXCEL_EXTENSION = ".xlsx";
-      const data: Blob = new Blob([buffer], {
-        type: EXCEL_TYPE
-      });
-      FileSaver.saveAs(
-        data,
-        fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
-      );
-    });
   }
 
 }
